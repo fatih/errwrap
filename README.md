@@ -6,13 +6,13 @@ different than the new `%w` verb directive [introduced in Go v1.13](https://gola
 
 ![errwrap](https://user-images.githubusercontent.com/438920/69905498-26b34c80-1369-11ea-888d-608f32678971.gif)
 
-# Install
+## Install
 
 ```bash
 go get github.com/fatih/errwrap/cmd/errwrap
 ```
 
-# Usage
+## Usage
 
 By default, `errwrap` prints the output of the analyzer to stdout. You can pass
 a file, directory or a Go package:
@@ -75,3 +75,26 @@ index 41d1c42..6cb42b8 100644
  }
 ```
 
+## Whether to Wrap or not?
+
+Wrapping an error is not always the best approach. Wrapping exposes the
+underlying error and makes it part of your public API. This means clients who
+rely on them could see breaking changes if you change your underlying
+implementation or don't wrap anymore.
+
+The blog post **[Working with Errors in Go
+1.13](https://blog.golang.org/go1.13-errors)** contains a section called
+`Whether to Wrap` that explains this in more detail
+
+
+## Credits
+
+This tool is built on top of the excellent `go/analysis` package that makes it
+easy to write custom analyzers in Go. If you're interested in writing a tool,
+check out my **[Using go/analysis to write a custom
+linter](https://arslan.io/2019/06/13/using-go-analysis-to-write-a-custom-linter/)**
+blog post.
+
+Also part of the code that parses the verb directives is from the
+`go/analysis/passes/printf` analyzer. It's a simplified version and might
+contain discrepancies.
