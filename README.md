@@ -1,6 +1,6 @@
 # errwrap
 
-Wrap and fix Go errors with the new %w verb directive. This tool analyzes
+Wrap and fix Go errors with the new **`%w`** verb directive. This tool analyzes
 `fmt.Errorf()` calls and reports calls that contain a verb directive that is
 different than the new `%w` verb directive [introduced in Go v1.13](https://golang.org/doc/go1.13#error_wrapping). It's also capable of rewriting calls to use the new `%w` wrap verb directive.
 
@@ -57,6 +57,21 @@ func foo() error {
 Calling `errwrap` with the `-fix` flag will rewrite the source code:
 
 ```
-$ errwrap -fix example.go
-demo.go:14:9: call could wrap the error with error-wrapping directive %w
+$ errwrap -fix main.go
+main.go:14:9: call could wrap the error with error-wrapping directive %w
 ```
+
+```diff
+diff --git a/main.go b/main.go
+index 41d1c42..6cb42b8 100644
+--- a/main.go
++++ b/main.go
+@@ -11,5 +11,5 @@ func main() {
+
+ func foo() error {
+        err := errors.New("bar!")
+-       return fmt.Errorf("failed for %s with error: %s", "foo", err)
++       return fmt.Errorf("failed for %s with error: %w", "foo", err)
+ }
+```
+
