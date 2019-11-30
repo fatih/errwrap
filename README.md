@@ -4,6 +4,7 @@ Wrap and fix Go errors with the new %w verb directive. This tool analyzes
 `fmt.Errorf()` calls and reports calls that contain a verb directive that is
 different than the new `%w` verb directive [introduced in Go v1.13](https://golang.org/doc/go1.13#error_wrapping). It's also capable of rewriting calls to use the new `%w` wrap verb directive.
 
+![errwrap](https://user-images.githubusercontent.com/438920/69905498-26b34c80-1369-11ea-888d-608f32678971.gif)
 
 # Install
 
