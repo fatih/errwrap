@@ -1,5 +1,5 @@
-// Package errwrap defines an Analyzer that rewrites error statements to use the
-// new wrapping/unwrapping functionality
+// Package errwrap defines an Analyzer that rewrites error statements to use
+// the new wrapping/unwrapping functionality
 package errwrap
 
 import (
@@ -188,70 +188,6 @@ func render(fset *token.FileSet, x interface{}) string {
 		panic(err)
 	}
 	return buf.String()
-}
-
-// importPath returns the unquoted import path of s,
-// or "" if the path is not properly quoted.
-func importPath(s *ast.ImportSpec) string {
-	t, err := strconv.Unquote(s.Path.Value)
-	if err == nil {
-		return t
-	}
-	return ""
-}
-
-// matchesSel matches the given sel slice with the selectors passed. This
-// should be mostly used in conjuction with the sel() function
-func matchesSel(sel []string, sels ...string) bool {
-	if len(sel) != len(sels) {
-		return false
-	}
-
-	for i, s := range sel {
-		if s != sels[i] {
-			return false
-		}
-	}
-
-	return true
-}
-
-// sel returns the selection expression names from a call expressions.
-// i.e: fmt.Errof() returns a slice of ["fmt", "Errorf"]. A call expression of
-// t.Foo().Bar() returns ["t", "Foo", "Bar"] or ["t", "Foo"] depending on which
-// part of the call expression is passed. A nil expr or non *ast.CallExpr
-// returns nil
-func sel(expr ast.Expr) []string {
-	if expr == nil {
-		return nil
-	}
-
-	ce, ok := expr.(*ast.CallExpr)
-	if !ok {
-		return nil
-	}
-
-	se, ok := ce.Fun.(*ast.SelectorExpr)
-	if !ok {
-		return nil
-	}
-
-	res := []string{}
-
-	if ce, ok := se.X.(*ast.CallExpr); ok {
-		partial := sel(ce)
-		res = append(res, partial...)
-		res = append(res, se.Sel.Name)
-		return res
-	}
-
-	if id, ok := se.X.(*ast.Ident); ok {
-		res = append(res, id.Name)
-	}
-
-	res = append(res, se.Sel.Name)
-	return res
-
 }
 
 //
