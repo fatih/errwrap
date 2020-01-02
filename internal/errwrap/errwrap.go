@@ -20,15 +20,8 @@ import (
 	"golang.org/x/tools/go/types/typeutil"
 )
 
-var Analyzer = &analysis.Analyzer{
-	Name:             "errwrap",
-	Doc:              "wrap errors in fmt.Errorf() calls with the %w verb directive",
-	Requires:         []*analysis.Analyzer{inspect.Analyzer},
-	Run:              run,
-	RunDespiteErrors: true,
-}
-
-func run(pass *analysis.Pass) (interface{}, error) {
+// Run is the runner for an analysis pass
+func Run(pass *analysis.Pass) (interface{}, error) {
 	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 
 	nodeFilter := []ast.Node{
