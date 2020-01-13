@@ -9,7 +9,7 @@ different than the new `%w` verb directive [introduced in Go v1.13](https://gola
 ## Install
 
 ```bash
-go get github.com/fatih/errwrap/cmd/errwrap
+go get github.com/fatih/errwrap
 ```
 
 ## Usage

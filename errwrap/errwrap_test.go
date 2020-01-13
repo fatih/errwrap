@@ -3,7 +3,7 @@ package errwrap_test
 import (
 	"testing"
 
-	"github.com/fatih/errwrap/internal/errwrap"
+	"github.com/fatih/errwrap/errwrap"
 	"golang.org/x/tools/go/analysis/analysistest"
 )
 
