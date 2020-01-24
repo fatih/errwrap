@@ -1,4 +1,4 @@
-# errwrap
+# errwrap [![](https://github.com/fatih/errwrap/workflows/build/badge.svg)](https://github.com/fatih/errwrap/actions)
 
 Wrap and fix Go errors with the new **`%w`** verb directive. This tool analyzes
 `fmt.Errorf()` calls and reports calls that contain a verb directive that is
