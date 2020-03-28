@@ -13,3 +13,5 @@
 
 internal/errwrap/testdata/pkg/mod
 
+# Ignore vendor directory
+/vendor
