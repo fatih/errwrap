@@ -113,16 +113,16 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				}
 			}
 
-			if state.argNum != errIndex {
-				continue
-			}
-
 			if state.verb == 'w' {
 				if anyW {
 					pass.Reportf(call.Pos(), "%s call has more than one error-wrapping directive %%w", state.name)
 					return
 				}
 				anyW = true
+				continue
+			}
+
+			if state.argNum != errIndex {
 				continue
 			}
 
