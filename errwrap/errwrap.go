@@ -176,8 +176,6 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		if anyIndex {
 			return
 		}
-
-		return
 	})
 
 	return nil, nil
@@ -205,7 +203,6 @@ type formatState struct {
 	flags    []byte // the list of # + etc.
 	argNums  []int  // the successive argument numbers that are consumed, adjusted to refer to actual arg in call
 	firstArg int    // Index of first argument after the format in the Printf call.
-	pos      int    // index of the verb in the format string
 
 	// Used only during parse.
 	pass         *analysis.Pass
