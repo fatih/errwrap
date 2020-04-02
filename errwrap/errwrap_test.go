@@ -9,5 +9,30 @@ import (
 
 func Test(t *testing.T) {
 	testdata := analysistest.TestData()
-	analysistest.Run(t, testdata, errwrap.Analyzer, "a")
+
+	for _, tcase := range []struct {
+		name string
+		dir  string
+	}{
+		{
+			name: "wrap the error with error-wrapping directive",
+			dir:  "a",
+		},
+		{
+			name: "has arguments but no formatting directives",
+			dir:  "b",
+		},
+		{
+			name: "has leftover arguments",
+			dir:  "c",
+		},
+		{
+			name: "too many formatting directives",
+			dir:  "d",
+		},
+	} {
+		t.Run(tcase.name, func(t *testing.T) {
+			analysistest.Run(t, testdata, errwrap.Analyzer, tcase.dir)
+		})
+	}
 }
