@@ -36,7 +36,7 @@ func Test(t *testing.T) {
 		},
 	} {
 		t.Run(tcase.name, func(t *testing.T) {
-			analysistest.Run(t, testdata, errwrap.Analyzer, tcase.dir)
+			analysistest.RunWithSuggestedFixes(t, testdata, errwrap.Analyzer, tcase.dir)
 		})
 	}
 }
