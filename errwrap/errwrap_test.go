@@ -30,9 +30,13 @@ func Test(t *testing.T) {
 			name: "too many formatting directives",
 			dir:  "d",
 		},
+		{
+			name: "wrap the error.String() with error-wrapping directive",
+			dir:  "e",
+		},
 	} {
 		t.Run(tcase.name, func(t *testing.T) {
-			analysistest.Run(t, testdata, errwrap.Analyzer, tcase.dir)
+			analysistest.RunWithSuggestedFixes(t, testdata, errwrap.Analyzer, tcase.dir)
 		})
 	}
 }

@@ -70,9 +70,21 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		var errIndex int
 		for i, arg := range call.Args {
 			if t := pass.TypesInfo.TypeOf(arg); t != nil {
-				if t.String() == "error" {
+				switch t.String() {
+				case "error":
 					hasError = true
 					errIndex = i
+				case "string":
+					if expr, ok := arg.(*ast.CallExpr); ok {
+						if sel, ok := expr.Fun.(*ast.SelectorExpr); ok {
+							if id, ok := sel.X.(*ast.Ident); ok {
+								if pass.TypesInfo.TypeOf(id).String() == "error" {
+									hasError = true
+									errIndex = i
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -134,6 +146,22 @@ func run(pass *analysis.Pass) (interface{}, error) {
 					Value:    strconv.Quote(string(newFormat)),
 					ValuePos: bl.ValuePos,
 					Kind:     bl.Kind,
+				}
+			}
+
+			if pass.TypesInfo.TypeOf(call.Args[errIndex]).String() == "string" {
+				arg := call.Args[errIndex]
+				if expr, ok := arg.(*ast.CallExpr); ok {
+					if sel, ok := expr.Fun.(*ast.SelectorExpr); ok {
+						if id, ok := sel.X.(*ast.Ident); ok {
+							// remove the .String call from the error
+							call.Args[errIndex] = &ast.BasicLit{
+								Value:    id.String(),
+								ValuePos: sel.X.Pos(),
+								Kind:     token.STRING,
+							}
+						}
+					}
 				}
 			}
 
