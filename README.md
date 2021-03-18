@@ -9,8 +9,11 @@ different than the new `%w` verb directive [introduced in Go v1.13](https://gola
 ## Install
 
 ```bash
-go get github.com/fatih/errwrap
+# minimum v1.16 is required
+go install github.com/fatih/errwrap@latest
 ```
+
+or download one of the [pre-compiled binaries from the releases page](https://github.com/fatih/errwrap/releases/latest) and copy to the desired location.
 
 ## Usage
 
