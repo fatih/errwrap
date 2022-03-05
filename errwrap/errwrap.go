@@ -140,9 +140,18 @@ func run(pass *analysis.Pass) (interface{}, error) {
 
 			newFormat[i+1] = 'w'
 
+			newCall := &ast.CallExpr{
+				Fun:      call.Fun,
+				Args:     make([]ast.Expr, len(call.Args)),
+				Lparen:   call.Lparen,
+				Ellipsis: call.Ellipsis,
+				Rparen:   call.Rparen,
+			}
+			copy(newCall.Args, call.Args)
+
 			if bl, ok := call.Args[0].(*ast.BasicLit); ok {
 				// replace the expression, keep the arguments the same
-				call.Args[0] = &ast.BasicLit{
+				newCall.Args[0] = &ast.BasicLit{
 					Value:    strconv.Quote(string(newFormat)),
 					ValuePos: bl.ValuePos,
 					Kind:     bl.Kind,
@@ -155,7 +164,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 					if sel, ok := expr.Fun.(*ast.SelectorExpr); ok {
 						if id, ok := sel.X.(*ast.Ident); ok {
 							// remove the .String call from the error
-							call.Args[errIndex] = &ast.BasicLit{
+							newCall.Args[errIndex] = &ast.BasicLit{
 								Value:    id.String(),
 								ValuePos: sel.X.Pos(),
 								Kind:     token.STRING,
@@ -165,7 +174,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				}
 			}
 
-			newExpr := render(pass.Fset, call)
+			newExpr := render(pass.Fset, newCall)
 
 			pass.Report(analysis.Diagnostic{
 				Pos:     call.Pos(),
