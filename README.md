@@ -53,7 +53,7 @@ func main() {
 
 func foo() error {
         err := errors.New("bar!")
-        return fmt.Errorf("foo failed: %s: %w bar ...", "foo", err)
+        return fmt.Errorf("foo failed: %s: %s bar ...", "foo", err)
 }
 ```
 
